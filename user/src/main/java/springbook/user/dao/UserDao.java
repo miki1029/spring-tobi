@@ -11,8 +11,8 @@ public class UserDao {
     // 인터페이스를 통해 오브젝트에 접근
     private ConnectionMaker connectionMaker;
 
-    public UserDao() {
-        connectionMaker = new DConnectionMaker(); // (문제점) 구체적 클래스 이름이 등장함
+    public UserDao(ConnectionMaker connectionMaker) {
+        this.connectionMaker = connectionMaker;
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
