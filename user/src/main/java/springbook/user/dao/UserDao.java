@@ -7,7 +7,7 @@ import java.sql.*;
 /**
  * Created by miki on 15. 10. 17..
  */
-public class UserDao {
+public abstract class UserDao {
     public void add(User user) throws ClassNotFoundException, SQLException {
         Connection c = getConnection();
 
@@ -42,21 +42,8 @@ public class UserDao {
         return user;
     }
 
-    private Connection getConnection() throws ClassNotFoundException, SQLException {
-        Class.forName("com.mysql.jdbc.Driver");
-        return DriverManager.getConnection("jdbc:mysql://localhost/springbook", "spring", "book");
-    }
+    // template method pattern : 브클래스가 슈퍼클래스의 기능을 확장(hook method)
+    // factory method pattern : 서브클래스에서 구체적인 오브젝트 생성 방법을 결정
+    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UserDao dao = new UserDao();
-
-        User user = new User("miki", "김민우", "1212");
-        dao.add(user);
-        System.out.println(user);
-        System.out.println("등록 성공");
-
-        User user2 = dao.get(user.getId());
-        System.out.println(user2);
-        System.out.println("조회 성공");
-    }
 }
