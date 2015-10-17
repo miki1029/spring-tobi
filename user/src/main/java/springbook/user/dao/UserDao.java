@@ -8,14 +8,15 @@ import java.sql.*;
  * Created by miki on 15. 10. 17..
  */
 public class UserDao {
-    private SimpleConnectionMaker simpleConnectionMaker;
+    // 인터페이스를 통해 오브젝트에 접근
+    private ConnectionMaker connectionMaker;
 
     public UserDao() {
-        simpleConnectionMaker = new SimpleConnectionMaker();
+        connectionMaker = new DConnectionMaker(); // (문제점) 구체적 클래스 이름이 등장함
     }
 
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.makeNewConnection();
+        Connection c = connectionMaker.makeConnection(); // 인터페이스에 정의된 메소드이므로 변경될 걱정이 없음
 
         PreparedStatement ps = c.prepareStatement("INSERT INTO users(id, name, password) VALUES(?, ?, ?)");
         ps.setString(1, user.getId());
@@ -29,7 +30,7 @@ public class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = simpleConnectionMaker.makeNewConnection();
+        Connection c = connectionMaker.makeConnection();
 
         PreparedStatement ps = c.prepareStatement("SELECT * FROM users WHERE id = ?");
         ps.setString(1, id);
