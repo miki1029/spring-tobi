@@ -7,9 +7,15 @@ import java.sql.*;
 /**
  * Created by miki on 15. 10. 17..
  */
-public abstract class UserDao {
+public class UserDao {
+    private SimpleConnectionMaker simpleConnectionMaker;
+
+    public UserDao() {
+        simpleConnectionMaker = new SimpleConnectionMaker();
+    }
+
     public void add(User user) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
 
         PreparedStatement ps = c.prepareStatement("INSERT INTO users(id, name, password) VALUES(?, ?, ?)");
         ps.setString(1, user.getId());
@@ -23,7 +29,7 @@ public abstract class UserDao {
     }
 
     public User get(String id) throws ClassNotFoundException, SQLException {
-        Connection c = getConnection();
+        Connection c = simpleConnectionMaker.makeNewConnection();
 
         PreparedStatement ps = c.prepareStatement("SELECT * FROM users WHERE id = ?");
         ps.setString(1, id);
@@ -41,9 +47,5 @@ public abstract class UserDao {
 
         return user;
     }
-
-    // template method pattern : 브클래스가 슈퍼클래스의 기능을 확장(hook method)
-    // factory method pattern : 서브클래스에서 구체적인 오브젝트 생성 방법을 결정
-    public abstract Connection getConnection() throws ClassNotFoundException, SQLException;
 
 }
