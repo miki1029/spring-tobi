@@ -10,9 +10,7 @@ import java.sql.SQLException;
 public class UserDaoTest {
     // 런타임 오브젝트 관계를 맺어주는 것이 클라이언트의 책임
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        ConnectionMaker connectionMaker = new DConnectionMaker();
-
-        UserDao dao = new UserDao(connectionMaker);
+        UserDao dao = new DaoFactory().userDao();
 
         User user = new User("miki", "김민우", "1212");
         dao.add(user);
