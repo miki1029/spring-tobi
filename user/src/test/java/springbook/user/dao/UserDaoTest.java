@@ -1,5 +1,7 @@
 package springbook.user.dao;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import springbook.user.domain.User;
 
 import java.sql.SQLException;
@@ -10,7 +12,8 @@ import java.sql.SQLException;
 public class UserDaoTest {
     // 런타임 오브젝트 관계를 맺어주는 것이 클라이언트의 책임
     public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        UserDao dao = new DaoFactory().userDao();
+        ApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
+        UserDao dao = context.getBean("userDao", UserDao.class);
 
         User user = new User("miki", "김민우", "1212");
         dao.add(user);

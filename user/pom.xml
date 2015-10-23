@@ -12,9 +12,19 @@
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <org.springframework-version>4.1.7.RELEASE</org.springframework-version>
+        <org.aspectj-version>1.6.10</org.aspectj-version>
+        <org.slf4j-version>1.6.6</org.slf4j-version>
     </properties>
 
     <dependencies>
+        <!-- Spring -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${org.springframework-version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
