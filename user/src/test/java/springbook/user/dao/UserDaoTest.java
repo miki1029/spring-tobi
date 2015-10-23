@@ -1,5 +1,6 @@
 package springbook.user.dao;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.springframework.context.ApplicationContext;
@@ -16,11 +17,17 @@ import static org.junit.Assert.assertThat;
  * Created by miki on 15. 10. 17..
  */
 public class UserDaoTest {
+
+    private UserDao dao;
+
+    @Before
+    public void setUp() {
+        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+        this.dao = context.getBean("userDao", UserDao.class);
+    }
+
     @Test
     public void count() throws SQLException {
-        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
         User user1 = new User("gyumee", "박성철", "springno1");
         User user2 = new User("leegw700", "이길원", "springno2");
         User user3 = new User("bumjin", "박범진", "springno3");
@@ -40,9 +47,6 @@ public class UserDaoTest {
 
     @Test
     public void addAndGet() throws SQLException {
-        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
         User user1 = new User("gyumee", "박성철", "springno1");
         User user2 = new User("leegw700", "이길원", "springno2");
 
@@ -65,9 +69,6 @@ public class UserDaoTest {
     // TDD - 조건, 행위, 결과 (기능 설계, 구현, 테스트에서 기능 설계 부분을 일부 담당)
     @Test(expected = EmptyResultDataAccessException.class) // 결과
     public void getUserFailure() throws SQLException {
-        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
-
-        UserDao dao = context.getBean("userDao", UserDao.class);
         // 조건
         dao.deleteAll();
         assertThat(dao.getCount(), is(0));
