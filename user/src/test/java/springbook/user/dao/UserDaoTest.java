@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericXmlApplicationContext;
+import org.springframework.dao.EmptyResultDataAccessException;
 import springbook.user.domain.User;
 
 import java.sql.SQLException;
@@ -59,6 +60,20 @@ public class UserDaoTest {
         User userget2 = dao.get(user2.getId());
         assertThat(userget2.getName(), is(user2.getName()));
         assertThat(userget2.getPassword(), is(user2.getPassword()));
+    }
+
+    // TDD - 조건, 행위, 결과 (기능 설계, 구현, 테스트에서 기능 설계 부분을 일부 담당)
+    @Test(expected = EmptyResultDataAccessException.class) // 결과
+    public void getUserFailure() throws SQLException {
+        ApplicationContext context = new GenericXmlApplicationContext("applicationContext.xml");
+
+        UserDao dao = context.getBean("userDao", UserDao.class);
+        // 조건
+        dao.deleteAll();
+        assertThat(dao.getCount(), is(0));
+
+        // 행위
+        dao.get("unknown_id");
     }
 
     public static void main(String[] args) {
