@@ -1,28 +1,21 @@
 package springbook.user.dao;
 
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import springbook.user.domain.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Created by miki on 15. 10. 17..
  */
 public class UserDao {
     // 인터페이스를 통해 오브젝트에 접근
-    // 싱글턴 스코프를 갖는 객체는 인스턴스 상태를 두지 않는다. 하지만 읽기 전용인 final은 무관하다.
-    private final ConnectionMaker connectionMaker;
+    private ConnectionMaker connectionMaker;
 
-    // DL : Dependency Lookup 의존관계 검색, UserDao가 Bean일 필요가 없다.
-    public UserDao() {
-//        DaoFactory daoFactory = new DaoFactory();
-//        this.connectionMaker = daoFactory.connectionMaker();
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(DaoFactory.class);
-        this.connectionMaker = context.getBean("connectionMaker", ConnectionMaker.class);
-    }
-
-    // DI : 의존 관계 주입(설정), 사용 의존 관계, 스프링에 의해 DI 받으려면 UserDao가 Bean이어야 한다.
-    public UserDao(ConnectionMaker connectionMaker) {
+    // XML을 사용하는 경우 자바빈 규약을 따르는 수정자 메소드가 가장 사용하기 편리하다.
+    public void setConnectionMaker(ConnectionMaker connectionMaker) {
         this.connectionMaker = connectionMaker;
     }
 
