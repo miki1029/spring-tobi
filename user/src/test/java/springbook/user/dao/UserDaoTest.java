@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -23,19 +22,15 @@ import static org.junit.Assert.assertThat;
 @ContextConfiguration(locations = "/applicationContext.xml")
 public class UserDaoTest {
     @Autowired
-    private ApplicationContext context;
+    UserDao dao;
 
     // fixture : 테스트를 수행하는데 필요한 정보나 오브젝트 -> @Before를 통해 생성
-    private UserDao dao;
     private User user1;
     private User user2;
     private User user3;
 
     @Before
     public void setUp() {
-        System.out.println(this.context); // 매 테스트 실행마다 동일한 객체
-        System.out.println(this); // 매 테스트 실행마다 다른 객체
-        this.dao = context.getBean("userDao", UserDao.class);
         user1 = new User("gyumee", "박성철", "springno1");
         user2 = new User("leegw700", "이길원", "springno2");
         user3 = new User("bumjin", "박범진", "springno3");
