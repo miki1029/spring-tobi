@@ -25,9 +25,11 @@ public class JUnitTest {
     static ApplicationContext contextObject = null;
 
     @Test public void test1() {
+        // 테스트 케이스 별로 새로운 오브젝트를 만드는지 테스트
         assertThat(testObjects, not(hasItem(this)));
         testObjects.add(this);
 
+        // 애플리케이션 컨텍스트를 공유하는지 테스트
         assertThat(contextObject == null || contextObject == this.context, is(true));
         contextObject = this.context;
     }
